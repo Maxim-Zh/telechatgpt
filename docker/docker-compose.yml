@@ -1,0 +1,23 @@
+version: "3.7"
+
+networks:
+  base-tier:
+    driver: bridge
+
+services:
+  admin:
+    image: telechatgpt:latest
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    container_name: admin
+    env_file:
+      - ../src/.env
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ../src:/app/src
+    networks:
+      - base-tier
+    ports:
+      - "8000:8000"
